@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 <script>
-  var capacity;
-  var produk;
+  var warehouse = [];
+  var goods = [];
 </script>
 
 <head></head>
@@ -12,120 +12,162 @@
 </form>
 <button onclick="fungsi()">Submit</button>
 <p id="demo"></p>
+<p id="test"></p>
 </body>
 <script>
 function fungsi() {
   var x = document.getElementById("inputform");
-  var text = "";
+  var text = ""; 
   var i;
-  for (i = 0; i < x.elements[i].length ;i++) {
+  for (i = 0; i < x.length ;i++) {
     text += x.elements[i].value + "<br>";
   }
-  var temp = text;
-  var string; var input;
-  var j;
-  for(i = 0;i<text.length;i++){
-    if(text[i]!='('){
-      string += text[i];
-      continue;
-    }
-    else{
-      i++;
-      for(j = i; j<text.length;j++){
-        input += text[j];
-      }
-    }
+
+  var temp = text.substring(0,1);
+  switch (temp){
+  	case "c":
+  		createFunction(text);
+  		break;
+  	case "i" :
+  		insertFunction(text);
+  		break;
+  	case "g" : 
+  		getFunction(text);
+  		break;
+  	default :
+  		document.getElementById("demo").innerHTML = "Input tidak sesuai!";
   }
-  var input1, input2, input3, k;
-  if(string == "createWarehous"){
-    for(i = 0; i<input.length; i++){
-      if(input[i]!= ','){
-        input1 += input[i];
-        continue;
-      }
-      else{
-        j = i++;
-        break
-      }
-    }
-    for(j ; j<input.length; j++){
-      if(input[j]!= ')'){
-        input2+=input[j];
-        continue;
-      }
-      else{
-        break;
-      }
-    }
+}
 
+function createFunction(text){
+	var inp1 = ""; var input2 = ""; var string ="";
+	var r = text.length-4;
+	string = text.substring(16,r-1);
+	var i; var temp=0;
+	for(i = 0; i<r ; i++){
+		if(string[i] != ",") {inp1 += string[i];}
+		else {
+			input2 = string.substring(i+1,r-1);
+			break;	
+		}
+	}
+	var inp2;
+	inp2 = parseInt(input2, 10);
+	for(i = 0; i<warehouse.length; i++){
+		if(warehouse[i][0] == inp1) {temp=1;}
+	}
+	if(temp==1){
+		document.getElementById("demo").innerHTML = "Gudang dengan ID " +inp1+ " sudah dibuat!";
+	}
+	else{
+		warehouse.push([inp1, inp2]);
+		document.getElementById("demo").innerHTML = "Berhasil membuat gudang dengan ID " +inp1+ " dengan kapasitas " +inp2;
+	}
+}
 
-  }
-  else if(string == "insertGoods"){
-    for(i = 0; i<input.length; i++){
-      if(input[i]!= ','){
-        input1 += input[i];
-        continue;
-      }
-      else{
-        j = i++;
-        break
-      }
-    }
-    for(j ; j<input.length; j++){
-      if(input[j]!= ')'){
-        input2+=input[j];
-        continue;
-      }
-      else{
-        k = j++;
-        break;
-      }
-    }
-    for(k ; k<input.length; k++){
-      if(input[k]!= ')'){
-        input3+=input[k];
-        continue;
-      }
-      else{
-        break;
-      }
-    }
+function insertFunction(text){
+	var inp1 = ""; var inp2 = ""; var input3 = ""; var string = ""; 
+	var temp = ""; var temp2 = 0;
+	var r = text.length-4;
+	var i; var j;
+	string = text.substring(12, r-1);
+	for(i = 0; i<r ; i++){
+		if(string[i] != ",") {inp1 += string[i];}
+		else {
+			temp = string.substring(i+1,r-1);
+			break;	
+		}
+	}
+	for(i = 0; i<temp.length ; i++){
+		if(temp[i] != ",") {inp2 += temp[i];}
+		else {
+			input3 = temp.substring(i+1,r-1);
+			break;	
+		}
+	}
+	var inp3; var posisi;
+	inp3 = parseInt(input3, 10);
+	for(i = 0; i<warehouse.length; i++){
+		if(warehouse[i][0] == inp1) {
+			temp2 = 1;
+			posisi = i;
+			break;
+		}
+	}
+	if(temp2 == 1){
+		var substract = warehouse[posisi][1]-inp3;
+		warehouse[posisi][1] = substract;
+		if(substract>= 0){
+			goods.push([inp1,inp2,inp3]);
+			document.getElementById("demo").innerHTML = "Barang " +inp2+ " berhasil ditambahkan pada Gudang " +inp1+ " sebanyak " +inp3+ ", kapasitas Gudang bersisa " +substract;
+		}
+		else{
+			document.getElementById("demo").innerHTML = "Kapasitas gudang penuh!";
+		}
+	}
+	else{
+		document.getElementById("demo").innerHTML = "Gudang " +inp1+ " tidak ditemukan!";
+	}
+}
 
-
-  }
-  else if(string == "getGoods"){
-    for(i = 0; i<input.length; i++){
-      if(input[i]!= ','){
-        input1 += input[i];
-        continue;
-      }
-      else{
-        j = i++;
-        break
-      }
-    }
-    for(j ; j<input.length; j++){
-      if(input[j]!= ')'){
-        input2+=input[j];
-        continue;
-      }
-      else{
-        k = j++;
-        break;
-      }
-    }
-    for(k ; k<input.length; k++){
-      if(input[k]!= ')'){
-        input3+=input[k];
-        continue;
-      }
-      else{
-        break;
-      }
-    }
-
-  }
-  document.getElementById("demo").innerHTML = text;
+function getFunction(text){
+	var inp1 = ""; var inp2 = ""; var input3 = ""; var string = ""; 
+	var temp = ""; var temp2 =0; var temp3 =0;
+	var r = text.length-4;
+	var i;
+	string = text.substring(9, r-1);
+	for(i = 0; i<r ; i++){
+		if(string[i] != ",") {inp1 += string[i];}
+		else {
+			temp = string.substring(i+1,r-1);
+			break;	
+		}
+	}
+	for(i = 0; i<temp.length ; i++){
+		if(temp[i] != ",") {inp2 += temp[i];}
+		else {
+			input3 = temp.substring(i+1,r-1);
+			break;	
+		}
+	}
+	var inp3; var posisi; var posisi2;
+	inp3 = parseInt(input3, 10);
+	for(i = 0; i<warehouse.length; i++){
+		if(warehouse[i][0] == inp1) {
+			temp2 = 1;
+			posisi = i;
+			break;
+		}
+	}
+	if(temp2 == 1){
+		for(i = 0; i<goods.length; i++){
+			if(goods[i][1] == inp2) {
+				temp3 = 1;
+				posisi2 = i;
+			}
+		}
+		if(temp3 == 1){
+			var jumlah; var kurang;
+			jumlah = goods[posisi2][2];
+			kurang = goods[posisi2][2] - inp3;
+			if(kurang >= 0 ){
+				goods[posisi2][2] = kurang;
+				warehouse[posisi][1] += inp3;
+				document.getElementById("demo").innerHTML = "Barang " +inp2+ " telah diambil sebanyak " +inp3+ " dari Gudang " +inp1+ ", kapasitas Gudang " +warehouse[posisi][1];
+			}
+			else{
+				goods[posisi2][2] = 0;
+				warehouse[posisi][1] += jumlah;
+				document.getElementById("demo").innerHTML = "Hanya bisa mengambil barang " +inp2+ " sebanyak " +jumlah+ ", kapasitas Gudang " + warehouse[posisi][1];
+			}
+		}
+		else{
+			document.getElementById("demo").innerHTML = "Barang " +inp2+ " tidak ditemukan di Gudang " +inp1;
+		}
+	}
+	else{
+		document.getElementById("demo").innerHTML = "Gudang " +inp1+ " tidak ditemukan!";
+	}
 
 }
 </script>
