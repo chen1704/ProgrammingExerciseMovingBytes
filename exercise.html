@@ -1,5 +1,29 @@
 <!DOCTYPE html>
 <html>
+<style>
+.besar{
+	width: 1000px;
+	height: auto;
+	margin : auto;
+	margin-top : 150px;
+}
+
+.kotak{
+	width : 300px;
+	height : auto;
+	padding-top : 20px;
+	padding-left : 10px;
+	margin : auto;
+	padding-bottom : 30px;
+	background : #42f49b;
+	border-radius : 10px;
+}
+
+.text{
+	font-family : arial;
+	color : white;
+}
+</style>
 <script>
   var warehouse = [];
   var goods = [];
@@ -7,12 +31,17 @@
 
 <head></head>
 <body>
-<form id="inputform" method="post">
-  <input type="text" name="text">
-</form>
-<button onclick="fungsi()">Submit</button>
-<p id="demo"></p>
-<p id="test"></p>
+<div class = "besar">
+	<div class = "kotak">
+		<p class = "text" style="font-size : 24px; font-weight : bold;">Insert Input</p>
+		<form id="inputform" method="post">
+		  <input type="text" name="text">
+		</form>
+		<button onclick="fungsi()">Submit</button>
+		<p class = "text" id="demo"></p>
+		<p class = "text" id="test"></p>
+	</div>
+</div>
 </body>
 <script>
 function fungsi() {
@@ -85,7 +114,7 @@ function insertFunction(text){
 			break;	
 		}
 	}
-	var inp3; var posisi;
+	var inp3; var posisi; var posisi2; var temp3 = 0;
 	inp3 = parseInt(input3, 10);
 	for(i = 0; i<warehouse.length; i++){
 		if(warehouse[i][0] == inp1) {
@@ -95,11 +124,22 @@ function insertFunction(text){
 		}
 	}
 	if(temp2 == 1){
-		var substract = warehouse[posisi][1]-inp3;
+		for(i = 0; i<goods.length; i++){
+			if(goods[i][1] == inp2) {
+				temp3 = 1;
+				posisi2 = i;
+			}
+		}var substract = warehouse[posisi][1]-inp3;
 		warehouse[posisi][1] = substract;
 		if(substract>= 0){
-			goods.push([inp1,inp2,inp3]);
-			document.getElementById("demo").innerHTML = "Barang " +inp2+ " berhasil ditambahkan pada Gudang " +inp1+ " sebanyak " +inp3+ ", kapasitas Gudang bersisa " +substract;
+			if(temp3==0){
+				goods.push([inp1,inp2,inp3]);
+				document.getElementById("demo").innerHTML = "Barang " +inp2+ " berhasil ditambahkan pada Gudang " +inp1+ " sebanyak " +inp3+ ", kapasitas Gudang bersisa " +substract;
+			}
+			else{
+				goods[posisi2][2] += inp3;
+				document.getElementById("demo").innerHTML = "Barang " +inp2+ " berhasil ditambahkan pada Gudang " +inp1+ " sebanyak " +inp3+ ", kapasitas Gudang bersisa " +substract;
+			}
 		}
 		else{
 			document.getElementById("demo").innerHTML = "Kapasitas gudang penuh!";
