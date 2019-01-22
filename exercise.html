@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<script>
+  var capacity;
+  var produk;
+</script>
+
+<head></head>
+<body>
+<form id="inputform" method="post">
+  <input type="text" name="text">
+</form>
+<button onclick="fungsi()">Submit</button>
+<p id="demo"></p>
+</body>
+<script>
+function fungsi() {
+  var x = document.getElementById("inputform");
+  var text = "";
+  var i;
+  for (i = 0; i < x.elements[i].length ;i++) {
+    text += x.elements[i].value + "<br>";
+  }
+  var temp = text;
+  var string; var input;
+  var j;
+  for(i = 0;i<text.length;i++){
+    if(text[i]!='('){
+      string += text[i];
+      continue;
+    }
+    else{
+      i++;
+      for(j = i; j<text.length;j++){
+        input += text[j];
+      }
+    }
+  }
+  var input1, input2, input3, k;
+  if(string == "createWarehous"){
+    for(i = 0; i<input.length; i++){
+      if(input[i]!= ','){
+        input1 += input[i];
+        continue;
+      }
+      else{
+        j = i++;
+        break
+      }
+    }
+    for(j ; j<input.length; j++){
+      if(input[j]!= ')'){
+        input2+=input[j];
+        continue;
+      }
+      else{
+        break;
+      }
+    }
+
+
+  }
+  else if(string == "insertGoods"){
+    for(i = 0; i<input.length; i++){
+      if(input[i]!= ','){
+        input1 += input[i];
+        continue;
+      }
+      else{
+        j = i++;
+        break
+      }
+    }
+    for(j ; j<input.length; j++){
+      if(input[j]!= ')'){
+        input2+=input[j];
+        continue;
+      }
+      else{
+        k = j++;
+        break;
+      }
+    }
+    for(k ; k<input.length; k++){
+      if(input[k]!= ')'){
+        input3+=input[k];
+        continue;
+      }
+      else{
+        break;
+      }
+    }
+
+
+  }
+  else if(string == "getGoods"){
+    for(i = 0; i<input.length; i++){
+      if(input[i]!= ','){
+        input1 += input[i];
+        continue;
+      }
+      else{
+        j = i++;
+        break
+      }
+    }
+    for(j ; j<input.length; j++){
+      if(input[j]!= ')'){
+        input2+=input[j];
+        continue;
+      }
+      else{
+        k = j++;
+        break;
+      }
+    }
+    for(k ; k<input.length; k++){
+      if(input[k]!= ')'){
+        input3+=input[k];
+        continue;
+      }
+      else{
+        break;
+      }
+    }
+
+  }
+  document.getElementById("demo").innerHTML = text;
+
+}
+</script>
+</script>
+
+</html>
